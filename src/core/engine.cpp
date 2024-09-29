@@ -27,6 +27,7 @@ void Engine::start() {
 
         // draw
         BeginDrawing();
+        ClearBackground(Color{0, 0, 0, 255});
         SceneTree::draw();
         EndDrawing();
     }

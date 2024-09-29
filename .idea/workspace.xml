@@ -14,12 +14,13 @@
   </component>
   <component name="CMakeRunConfigurationManager">
     <generated>
-      <config projectName="testbed" targetName="testbed" />
-      <config projectName="testbed" targetName="uninstall" />
-      <config projectName="testbed" targetName="glm" />
-      <config projectName="testbed" targetName="glfw" />
-      <config projectName="testbed" targetName="update_mappings" />
-      <config projectName="testbed" targetName="raylib" />
+      <config projectName="rayengine" targetName="raylib" />
+      <config projectName="rayengine" targetName="glfw" />
+      <config projectName="rayengine" targetName="update_mappings" />
+      <config projectName="rayengine" targetName="rayengine_test" />
+      <config projectName="rayengine" targetName="glm" />
+      <config projectName="rayengine" targetName="uninstall" />
+      <config projectName="rayengine" targetName="rayengine" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -28,10 +29,18 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9ad0df52-e183-407c-9b16-32937eea398a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/editor.xml" afterDir="false" />
+    <list default="true" id="9ad0df52-e183-407c-9b16-32937eea398a" name="Changes" comment="feat: initialize raylib build environment, implement basic scene tree, camera, and cube">
+      <change afterPath="$PROJECT_DIR$/test/main.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/src/test_scene.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/src/test_scene.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/core/node.h" beforeDir="false" afterPath="$PROJECT_DIR$/include/core/node.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/engine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/engine.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/node.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/node.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/core/render/primitives/cube.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/core/render/primitives/cube.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +53,9 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug-Visual Studio" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/../../../../../Program Files (x86)/Windows Kits/10/Include/10.0.22621.0/cppwinrt/winrt/windows.gaming.input.preview.h" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
@@ -61,6 +73,8 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "CMake Application.rayengine.executor": "Run",
+    "CMake Application.rayengine_test.executor": "Run",
     "RunOnceActivity.RadMigrateCodeStyle": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
@@ -70,49 +84,59 @@
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "last_opened_file_path": "C:/Users/scripter36/dev/working/rayengine",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="CMake Application.testbed">
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+  <component name="RunManager" selected="CMake Application.rayengine_test">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="glfw" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="rayengine" TARGET_NAME="glfw" CONFIG_NAME="Debug-Visual Studio">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="glfw" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="testbed" TARGET_NAME="glfw" CONFIG_NAME="Debug-Visual Studio">
+    <configuration name="glm" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="rayengine" TARGET_NAME="glm" CONFIG_NAME="Debug-Visual Studio">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="glm" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="testbed" TARGET_NAME="glm" CONFIG_NAME="Debug-Visual Studio">
+    <configuration name="rayengine" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="rayengine" TARGET_NAME="rayengine" CONFIG_NAME="Debug-Visual Studio" RUN_TARGET_PROJECT_NAME="rayengine" RUN_TARGET_NAME="rayengine">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="raylib" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="testbed" TARGET_NAME="raylib" CONFIG_NAME="Debug-Visual Studio">
+    <configuration name="rayengine_test" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="rayengine" TARGET_NAME="rayengine_test" CONFIG_NAME="Debug-Visual Studio" RUN_TARGET_PROJECT_NAME="rayengine" RUN_TARGET_NAME="rayengine_test">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="testbed" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="testbed" TARGET_NAME="testbed" CONFIG_NAME="Debug-Visual Studio" RUN_TARGET_PROJECT_NAME="testbed" RUN_TARGET_NAME="testbed">
+    <configuration name="raylib" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="rayengine" TARGET_NAME="raylib" CONFIG_NAME="Debug-Visual Studio">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="uninstall" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="testbed" TARGET_NAME="uninstall" CONFIG_NAME="Debug-Visual Studio">
+    <configuration name="uninstall" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="rayengine" TARGET_NAME="uninstall" CONFIG_NAME="Debug-Visual Studio">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="update_mappings" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="testbed" TARGET_NAME="update_mappings" CONFIG_NAME="Debug-Visual Studio">
+    <configuration name="update_mappings" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="rayengine" TARGET_NAME="update_mappings" CONFIG_NAME="Debug-Visual Studio">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="CMake Application.testbed" />
+      <item itemvalue="CMake Application.rayengine" />
+      <item itemvalue="CMake Application.rayengine_test" />
       <item itemvalue="CMake Application.glm" />
       <item itemvalue="CMake Application.uninstall" />
       <item itemvalue="CMake Application.raylib" />
@@ -129,22 +153,53 @@
       <option name="presentableId" value="Default" />
       <updated>1727598368516</updated>
       <workItem from="1727598369255" duration="32000" />
-      <workItem from="1727598615512" duration="49000" />
+      <workItem from="1727598615512" duration="1226000" />
+      <workItem from="1727605648346" duration="3091000" />
     </task>
+    <task id="LOCAL-00001" summary="feat: initialize raylib build environment, implement basic scene tree, camera, and cube">
+      <option name="closed" value="true" />
+      <created>1727598694422</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1727598694422</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VCPKGProject">
+    <isAutomaticCheckingOnLaunch value="false" />
+    <isAutomaticFoundErrors value="true" />
+    <isAutomaticReloadCMake value="true" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="roots">
+                    <value>
+                      <list>
+                        <option value="$PROJECT_DIR$" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: initialize raylib build environment, implement basic scene tree, camera, and cube" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: initialize raylib build environment, implement basic scene tree, camera, and cube" />
   </component>
 </project>

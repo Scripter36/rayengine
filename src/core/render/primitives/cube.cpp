@@ -4,29 +4,20 @@
 
 #include "core/render/primitives/cube.h"
 
+#include "gtc/type_ptr.inl"
+
 extern "C" {
 #include "raylib.h"
 #include "rlgl.h"
 }
 
 #include "core/render/camera_node.h"
-#include "gtx/matrix_interpolation.hpp"
 
 void Cube::draw() {
     if (auto ptr = CameraNode::getMainCamera()) {
         BeginMode3D(*ptr);
-        const auto transform = getGlobalTransform();
-        const auto position = getGlobalPosition();
-        glm::vec3 axis;
-        float angle;
-        glm::axisAngle(transform, axis, angle);
-        const auto scale = getScale();
-
         rlPushMatrix(); {
-            // NOTE: Transformation is applied in inverse order (scale -> rotate -> translate)
-            rlTranslatef(position.x, position.y, position.z);
-            // rlRotatef(angle / glm::pi<float>() * 180, axis.x, axis.y, axis.z);
-            // rlScalef(scale.x, scale.y, scale.z); // NOTE: Vertices are directly scaled on definition
+            rlMultMatrixf(value_ptr(getGlobalTransform()));
 
             rlBegin(RL_TRIANGLES);
             rlColor3f(color.r, color.g, color.b); {

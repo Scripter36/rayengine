@@ -41,9 +41,8 @@ void Node::removeFromParent() {
 }
 
 glm::mat4 Node::getLocalTransform() const {
-    // glm::vec3 to glm::mat4
     const auto translationMatrix = glm::translate(glm::mat4(1.0f), position);
-    const auto rotationMatrix = glm::toMat4(rotation);
+    const auto rotationMatrix = glm::mat4_cast(rotation);
     const auto scaleMatrix = glm::scale(glm::mat4(1.0f), scale);
 
     return translationMatrix * rotationMatrix * scaleMatrix;
