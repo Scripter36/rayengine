@@ -1,0 +1,9 @@
+[submodule "vendors/raylib"]
+	path = vendors/raylib
+	url = https://github.com/raysan5/raylib.git
+[submodule "vendors/raygui"]
+	path = vendors/raygui
+	url = https://github.com/raysan5/raygui.git
+[submodule "vendors/glm"]
+	path = vendors/glm
+	url = https://github.com/g-truc/glm.git
