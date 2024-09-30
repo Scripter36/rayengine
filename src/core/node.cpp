@@ -3,6 +3,7 @@
 //
 
 #include "core/node.h"
+using namespace rayengine;
 
 void Node::addChild(const shared_ptr<Node>& child) {
     // check if child is already in children
@@ -37,21 +38,5 @@ void Node::removeChild(const shared_ptr<Node>& child) {
 void Node::removeFromParent() {
     if (const auto p = parent.lock()) {
         p->removeChild(shared_from_this());
-    }
-}
-
-glm::mat4 Node::getLocalTransform() const {
-    const auto translationMatrix = glm::translate(glm::mat4(1.0f), position);
-    const auto rotationMatrix = glm::mat4_cast(rotation);
-    const auto scaleMatrix = glm::scale(glm::mat4(1.0f), scale);
-
-    return translationMatrix * rotationMatrix * scaleMatrix;
-}
-
-glm::mat4 Node::getGlobalTransform() const {
-    if (const auto p = parent.lock()) {
-        return p->getGlobalTransform() * getLocalTransform();
-    } else {
-        return getLocalTransform();
     }
 }

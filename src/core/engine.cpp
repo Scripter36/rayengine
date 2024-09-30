@@ -10,6 +10,8 @@ extern "C" {
 
 #include "core/scene_tree.h"
 
+using namespace rayengine;
+
 int Engine::screenWidth = 800;
 int Engine::screenHeight = 640;
 std::string Engine::title = "Engine";

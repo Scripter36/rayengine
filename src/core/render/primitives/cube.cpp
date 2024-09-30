@@ -11,13 +11,14 @@ extern "C" {
 #include "rlgl.h"
 }
 
+using namespace rayengine;
 #include "core/render/camera_node.h"
 
 void Cube::draw() {
-    if (auto ptr = CameraNode::getMainCamera()) {
+    if (auto ptr = Camera3D::getMainCamera()) {
         BeginMode3D(*ptr);
         rlPushMatrix(); {
-            rlMultMatrixf(value_ptr(getGlobalTransform()));
+            rlMultMatrixf(glm::value_ptr(getGlobalTransform()));
 
             rlBegin(RL_TRIANGLES);
             rlColor3f(color.r, color.g, color.b); {

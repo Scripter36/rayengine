@@ -4,19 +4,23 @@
 
 #ifndef TEST_SCENE_H
 #define TEST_SCENE_H
-#include "core/node.h"
+#include "core/node3d.h"
 
+namespace rayengine {
+    class Cube;
+}
 
-class Cube;
+using namespace rayengine;
 
-class TestScene : public Node {
+class TestScene : public Node3D {
 public:
     static std::shared_ptr<TestScene> create(NODE_CREATE_ARGS);
 
     void process(float dt) override;
 
 protected:
-    NODE_DEFAULT_CONSTRUCTOR(TestScene);
+    TestScene() : Node3D() {
+    }
 
     shared_ptr<Cube> cube;
     float angle = 0;

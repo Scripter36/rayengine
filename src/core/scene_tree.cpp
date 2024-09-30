@@ -8,6 +8,8 @@
 
 #include "core/node.h"
 
+using namespace rayengine;
+
 shared_ptr<Node> SceneTree::root;
 
 void SceneTree::init() {

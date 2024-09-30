@@ -7,14 +7,16 @@
 
 #include <string>
 
-class Engine {
-public:
-    static int screenWidth;
-    static int screenHeight;
-    static std::string title;
+namespace rayengine {
+    class Engine {
+    public:
+        static int screenWidth;
+        static int screenHeight;
+        static std::string title;
 
-    static void start();
-};
+        static void start();
+    };
+}
 
 
 #endif //ENGINE_H

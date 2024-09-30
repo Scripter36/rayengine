@@ -6,22 +6,25 @@
 #define SCENE_TREE_H
 #include <memory>
 
-class Node;
 using namespace std;
 
-class SceneTree {
-public:
-    static void init();
+namespace rayengine {
+    class Node;
 
-    static void process(float dt);
+    class SceneTree {
+    public:
+        static void init();
 
-    static void draw();
+        static void process(float dt);
 
-    static void setRoot(shared_ptr<Node> new_root);
+        static void draw();
 
-private:
-    static shared_ptr<Node> root;
-};
+        static void setRoot(shared_ptr<Node> new_root);
+
+    private:
+        static shared_ptr<Node> root;
+    };
+}
 
 
 #endif //SCENE_TREE_H

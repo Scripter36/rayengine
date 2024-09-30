@@ -6,6 +6,8 @@
 #include "core/scene_tree.h"
 #include "src/test_scene.h"
 
+using namespace rayengine;
+
 int main() {
     const auto scene = TestScene::create();
     SceneTree::init();

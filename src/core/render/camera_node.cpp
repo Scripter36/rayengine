@@ -6,13 +6,13 @@
 
 #include <iostream>
 
+weak_ptr<rayengine::Camera3D> rayengine::Camera3D::mainCamera;
 
-weak_ptr<CameraNode> CameraNode::mainCamera;
 
-
-shared_ptr<CameraNode> CameraNode::create(const float fov, const glm::vec3 target, const weak_ptr<Node>& parent,
-                                          const vector<shared_ptr<Node> >& children) {
-    NODE_CREATE(node, CameraNode);
+shared_ptr<rayengine::Camera3D> rayengine::Camera3D::create(
+    const float fov, const glm::vec3 target, const weak_ptr<Node> &parent,
+    const vector<shared_ptr<Node> > &children) {
+    NODE_CREATE(node, Camera3D);
     node->camera = Camera();
     node->camera.fovy = fov;
     node->target = target;
@@ -22,14 +22,14 @@ shared_ptr<CameraNode> CameraNode::create(const float fov, const glm::vec3 targe
     return node;
 }
 
-Camera* CameraNode::getMainCamera() {
+Camera *rayengine::Camera3D::getMainCamera() {
     if (const auto camera_node = mainCamera.lock()) {
         return &camera_node->camera;
     }
     return nullptr;
 }
 
-void CameraNode::process(float dt) {
+void rayengine::Camera3D::process(float dt) {
     // set camera position, target and up vectors from node's global position and rotation
     const auto position = getGlobalPosition();
     camera.position = Vector3{position.x, position.y, position.z};

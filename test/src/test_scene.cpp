@@ -11,7 +11,7 @@
 
 std::shared_ptr<TestScene> TestScene::create(const weak_ptr<Node> &parent, const vector<shared_ptr<Node> > &children) {
     NODE_CREATE(node, TestScene);
-    const auto camera = CameraNode::create(45.0f, {0, 0, 0}, node);
+    const auto camera = rayengine::Camera3D::create(45.0f, {0, 0, 0}, node);
     camera->setPosition({0, 0, 10});
 
     node->cube = Cube::create(node);

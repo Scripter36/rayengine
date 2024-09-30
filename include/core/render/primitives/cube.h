@@ -4,25 +4,27 @@
 
 #ifndef CUBE_H
 #define CUBE_H
-#include "core/node.h"
+#include "core/node3d.h"
 
+namespace rayengine {
+    class Cube : public Node3D {
+    public:
+        static shared_ptr<Cube> create(NODE_CREATE_ARGS,
+                                       const glm::vec3 color = {1, 1, 1}) {
+            NODE_CREATE(node, Cube);
+            node->color = color;
+            return node;
+        }
 
-class Cube : public Node {
-public:
-    static shared_ptr<Cube> create(NODE_CREATE_ARGS,
-                                   const glm::vec3 color = {1, 1, 1}) {
-        NODE_CREATE(node, Cube);
-        node->color = color;
-        return node;
-    }
+        void draw() override;
 
-    void draw() override;
+        glm::vec3 color = {1, 1, 1};
 
-    glm::vec3 color = {1, 1, 1};
-
-protected:
-    NODE_DEFAULT_CONSTRUCTOR(Cube)
-};
+    protected:
+        Cube(): Node3D() {
+        }
+    };
+}
 
 
 #endif //CUBE_H
