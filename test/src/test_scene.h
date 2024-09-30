@@ -14,7 +14,7 @@ using namespace rayengine;
 
 class TestScene : public Node3D {
 public:
-    static std::shared_ptr<TestScene> create(NODE_CREATE_ARGS);
+    static std::shared_ptr<TestScene> Create(NODE_CREATE_ARGS);
 
     void Process(float dt) override;
 

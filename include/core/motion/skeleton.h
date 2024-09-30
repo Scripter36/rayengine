@@ -11,6 +11,7 @@
 
 
 namespace rayengine {
+class Motion;
 #define ORDER_XYZ 0
 #define ORDER_XZY 1
 #define ORDER_YXZ 2
@@ -29,11 +30,15 @@ public:
     std::vector<char> channel_counts;
     std::vector<char> position_orders;
     std::vector<char> rotation_orders;
+    std::vector<unsigned int> depths;
+    std::vector<unsigned int> channel_start;
 
     Skeleton() = default;
 
     int AddBone(const std::string &name, const glm::vec3 &offset, int parent, unsigned char channel_count,
                 unsigned char position_order, unsigned char rotation_order);
+
+    [[nodiscard]] std::vector<glm::vec3> ForwardKinematics(Motion& motion, int frame) const;
 };
 } // rayengine
 

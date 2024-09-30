@@ -9,7 +9,7 @@
 #include "core/render/camera_node.h"
 #include "core/render/primitives/cube.h"
 
-std::shared_ptr<TestScene> TestScene::create(const weak_ptr<Node> &parent, const vector<shared_ptr<Node> > &children) {
+std::shared_ptr<TestScene> TestScene::Create(const weak_ptr<Node> &parent, const vector<shared_ptr<Node> > &children) {
     NODE_CREATE(node, TestScene);
     const auto camera = rayengine::Camera3D::Create(45.0f, {0, 0, 0}, node);
     camera->SetPosition({0, 0, 10});

@@ -20,11 +20,12 @@ int main() {
     Skeleton skeleton;
     Motion motion;
     BVHFormat::Import(file, skeleton, motion);
-    auto out = std::ofstream("assets/walk_minimum_out.bvh");
-    BVHFormat::Export(out, skeleton, motion);
     file.close();
-    out.close();
-    const auto scene = TestScene::create();
+
+    // Perform forward kinematics
+    auto positions = skeleton.ForwardKinematics(motion, 0);
+
+    const auto scene = TestScene::Create();
     SceneTree::Init();
     SceneTree::SetRoot(scene);
     Engine::Start();

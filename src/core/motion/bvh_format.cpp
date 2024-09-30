@@ -32,15 +32,10 @@ void BVHFormat::Export(std::ostream &os, const Skeleton &skeleton, const Motion 
     os << "Frames: " << motion.frame_count << "\n";
     os << "Frame Time: " << motion.frame_time << "\n";
 
-    int channel_count = 0;
-    for (int i = 0; i < skeleton.parents.size(); i++) {
-        channel_count += skeleton.channel_counts[i] * 3;
-    }
-
     for (int i = 0; i < motion.frame_count; i++) {
-        for (int j = 0; j < channel_count; j++) {
-            os << motion.data[i * channel_count + j];
-            if (j < channel_count - 1) {
+        for (int j = 0; j < motion.channel_count; j++) {
+            os << motion.data[i * motion.channel_count + j];
+            if (j < motion.channel_count - 1) {
                 os << " ";
             }
         }
@@ -210,6 +205,7 @@ void BVHFormat::MotionData(std::istream &is, const Skeleton &skeleton, Motion &m
         channel_count += skeleton.channel_counts[i] * 3;
     }
     channel_count *= frame_count;
+    motion.channel_count = channel_count;
 
     for (int i = 0; i < channel_count; i++) {
         float value;
