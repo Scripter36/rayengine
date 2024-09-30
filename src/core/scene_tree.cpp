@@ -1,5 +1,5 @@
 ﻿//
-// Created by 1350a on 2024-09-28.
+// Created by Scripter36 on 2024-09-28.
 //
 
 #include <utility>
@@ -12,22 +12,22 @@ using namespace rayengine;
 
 shared_ptr<Node> SceneTree::root;
 
-void SceneTree::init() {
-    root = Node::create();
+void SceneTree::Init() {
+    root = Node::Create();
 }
 
-void SceneTree::process(const float dt) {
+void SceneTree::Process(const float dt) {
     for (const auto node: *root) {
-        node->process(dt);
+        node->Process(dt);
     }
 }
 
-void SceneTree::draw() {
+void SceneTree::Draw() {
     for (const auto node: *root) {
-        node->draw();
+        node->Draw();
     }
 }
 
-void SceneTree::setRoot(shared_ptr<Node> new_root) {
+void SceneTree::SetRoot(shared_ptr<Node> new_root) {
     root = std::move(new_root);
 }

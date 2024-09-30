@@ -11,17 +11,17 @@
 
 std::shared_ptr<TestScene> TestScene::create(const weak_ptr<Node> &parent, const vector<shared_ptr<Node> > &children) {
     NODE_CREATE(node, TestScene);
-    const auto camera = rayengine::Camera3D::create(45.0f, {0, 0, 0}, node);
-    camera->setPosition({0, 0, 10});
+    const auto camera = rayengine::Camera3D::Create(45.0f, {0, 0, 0}, node);
+    camera->SetPosition({0, 0, 10});
 
-    node->cube = Cube::create(node);
-    auto cube2 = Cube::create(node->cube);
-    cube2->setPosition({0, 2, 0});
+    node->cube = Cube::Create(node);
+    auto cube2 = Cube::Create(node->cube);
+    cube2->SetPosition({0, 2, 0});
 
     return node;
 }
 
-void TestScene::process(const float dt) {
+void TestScene::Process(const float dt) {
     angle += dt;
-    cube->setRotation(glm::quat(glm::vec3{0, 0, angle}));
+    cube->SetRotation(glm::quat(glm::vec3{0, 0, angle}));
 }

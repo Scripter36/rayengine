@@ -1,5 +1,5 @@
 ﻿//
-// Created by 1350a on 2024-09-28.
+// Created by Scripter36 on 2024-09-28.
 //
 
 #ifndef SCENE_TREE_H
@@ -13,13 +13,13 @@ namespace rayengine {
 
     class SceneTree {
     public:
-        static void init();
+        static void Init();
 
-        static void process(float dt);
+        static void Process(float dt);
 
-        static void draw();
+        static void Draw();
 
-        static void setRoot(shared_ptr<Node> new_root);
+        static void SetRoot(shared_ptr<Node> new_root);
 
     private:
         static shared_ptr<Node> root;

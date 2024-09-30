@@ -1,5 +1,5 @@
 //
-// Created by ikjun on 24. 9. 30.
+// Created by Scripter36 on 24. 9. 30.
 //
 
 #ifndef NODE3D_H
@@ -19,40 +19,40 @@ namespace rayengine {
         glm::vec3 scale = {1, 1, 1};
 
     public:
-        glm::vec3 getPosition() const {
+        glm::vec3 GetPosition() const {
             return position;
         }
 
-        void setPosition(const glm::vec3 &position) {
+        void SetPosition(const glm::vec3 &position) {
             Node3D::position = position;
         }
 
-        glm::quat getRotation() const {
+        glm::quat GetRotation() const {
             return rotation;
         }
 
-        void setRotation(const glm::quat &rotation) {
+        void SetRotation(const glm::quat &rotation) {
             Node3D::rotation = rotation;
         }
 
-        glm::vec3 getScale() const {
+        glm::vec3 GetScale() const {
             return scale;
         }
 
-        void setScale(const glm::vec3 &scale) {
+        void SetScale(const glm::vec3 &scale) {
             Node3D::scale = scale;
         }
 
-        glm::mat4 getLocalTransform() const;
+        glm::mat4 GetLocalTransform() const;
 
-        glm::mat4 getGlobalTransform() const;
+        glm::mat4 GetGlobalTransform() const;
 
-        glm::vec3 getGlobalPosition() const {
-            return glm::vec3(getGlobalTransform()[3]);
+        glm::vec3 GetGlobalPosition() const {
+            return glm::vec3(GetGlobalTransform()[3]);
         }
 
-        glm::quat getGlobalRotation() const {
-            return glm::quat_cast(getGlobalTransform());
+        glm::quat GetGlobalRotation() const {
+            return glm::quat_cast(GetGlobalTransform());
         }
     };
 }

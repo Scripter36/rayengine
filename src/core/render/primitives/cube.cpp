@@ -1,5 +1,5 @@
 ﻿//
-// Created by 1350a on 2024-09-28.
+// Created by Scripter36 on 2024-09-28.
 //
 
 #include "core/render/primitives/cube.h"
@@ -14,11 +14,11 @@ extern "C" {
 using namespace rayengine;
 #include "core/render/camera_node.h"
 
-void Cube::draw() {
-    if (auto ptr = Camera3D::getMainCamera()) {
-        BeginMode3D(*ptr);
+void Cube::Draw() {
+    if (const auto camera = Camera3D::GetMainCamera()) {
+        BeginMode3D(*camera);
         rlPushMatrix(); {
-            rlMultMatrixf(glm::value_ptr(getGlobalTransform()));
+            rlMultMatrixf(glm::value_ptr(GetGlobalTransform()));
 
             rlBegin(RL_TRIANGLES);
             rlColor3f(color.r, color.g, color.b); {

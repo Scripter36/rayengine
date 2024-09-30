@@ -1,11 +1,11 @@
 ﻿//
-// Created by 1350a on 2024-09-28.
+// Created by Scripter36 on 2024-09-28.
 //
 
 #include "core/node.h"
 using namespace rayengine;
 
-void Node::addChild(const shared_ptr<Node>& child) {
+void Node::AddChild(const shared_ptr<Node>& child) {
     // check if child is already in children
     for (auto& c: children) {
         if (c == child) {
@@ -15,7 +15,7 @@ void Node::addChild(const shared_ptr<Node>& child) {
 
     // remove child from previous parent
     if (const auto p = child->parent.lock()) {
-        p->removeChild(child);
+        p->RemoveChild(child);
     }
 
     // add child to children
@@ -23,7 +23,7 @@ void Node::addChild(const shared_ptr<Node>& child) {
     child->parent = shared_from_this();
 }
 
-void Node::removeChild(const shared_ptr<Node>& child) {
+void Node::RemoveChild(const shared_ptr<Node>& child) {
     // find child in children
     for (auto it = children.begin(); it != children.end(); ++it) {
         if (*it == child) {
@@ -35,8 +35,8 @@ void Node::removeChild(const shared_ptr<Node>& child) {
     }
 }
 
-void Node::removeFromParent() {
+void Node::RemoveFromParent() {
     if (const auto p = parent.lock()) {
-        p->removeChild(shared_from_this());
+        p->RemoveChild(shared_from_this());
     }
 }

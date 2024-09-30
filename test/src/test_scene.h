@@ -16,7 +16,7 @@ class TestScene : public Node3D {
 public:
     static std::shared_ptr<TestScene> create(NODE_CREATE_ARGS);
 
-    void process(float dt) override;
+    void Process(float dt) override;
 
 protected:
     TestScene() : Node3D() {

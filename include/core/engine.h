@@ -1,5 +1,5 @@
 ﻿//
-// Created by 1350a on 2024-09-28.
+// Created by Scripter36 on 2024-09-28.
 //
 
 #ifndef ENGINE_H
@@ -10,11 +10,11 @@
 namespace rayengine {
     class Engine {
     public:
-        static int screenWidth;
-        static int screenHeight;
+        static int screen_width;
+        static int screen_height;
         static std::string title;
 
-        static void start();
+        static void Start();
     };
 }
 
