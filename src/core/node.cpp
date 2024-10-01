@@ -7,7 +7,7 @@ using namespace rayengine;
 
 void Node::AddChild(const shared_ptr<Node>& child) {
     // check if child is already in children
-    for (auto& c: children) {
+    for (auto& c : children) {
         if (c == child) {
             return;
         }

@@ -8,15 +8,16 @@
 #include <string>
 
 namespace rayengine {
-    class Engine {
-    public:
-        static int screen_width;
-        static int screen_height;
-        static std::string title;
 
-        static void Start();
-    };
-}
+class Engine {
+public:
+    static int screen_width;
+    static int screen_height;
+    static std::string title;
 
+    static void Start();
+};
 
-#endif //ENGINE_H
+}  // namespace rayengine
+
+#endif  // ENGINE_H

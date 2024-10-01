@@ -5,10 +5,10 @@
 #include <fstream>
 
 #include "core/engine.h"
-#include "core/scene_tree.h"
 #include "core/motion/bvh_format.h"
 #include "core/motion/motion.h"
 #include "core/motion/skeleton.h"
+#include "core/scene_tree.h"
 #include "src/test_scene.h"
 
 using namespace rayengine;

@@ -13,9 +13,8 @@
 
 using namespace rayengine;
 
-int Skeleton::AddBone(const std::string &name, const glm::vec3 &offset, int parent,
-                      unsigned char channel_count, unsigned char position_order,
-                      unsigned char rotation_order) {
+int Skeleton::AddBone(const std::string &name, const glm::vec3 &offset, int parent, unsigned char channel_count,
+                      unsigned char position_order, unsigned char rotation_order) {
     if (parent >= 0 && parent >= parents.size()) {
         throw std::runtime_error("Parent bone index out of range");
     }
@@ -89,10 +88,10 @@ std::vector<glm::vec3> Skeleton::ForwardKinematics(Motion &motion, int frame) co
                                 head = parents[joint];
                                 break;
                             }
-                            const auto head_index = std::find(children.begin() + children_indices[parent],
-                                                              children.begin() + children_indices[parent] +
-                                                              children_counts[parent],
-                                                              head) - children.begin();
+                            const auto head_index =
+                                std::find(children.begin() + children_indices[parent],
+                                          children.begin() + children_indices[parent] + children_counts[parent], head) -
+                                children.begin();
                             if (head_index < children_counts[parent] - 1) {
                                 head = children[children_indices[parent] + head_index + 1];
                                 break;
@@ -105,7 +104,8 @@ std::vector<glm::vec3> Skeleton::ForwardKinematics(Motion &motion, int frame) co
                         }
                     }
                     if (head == 2) {
-                        std::cout << "joint: " << joint << " - " << "head: " << head << std::endl;
+                        std::cout << "joint: " << joint << " - "
+                                  << "head: " << head << std::endl;
                     }
                     positions[head] = glm::vec3(transform * glm::vec4(positions[head], 1));
                 }

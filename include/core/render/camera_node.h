@@ -14,27 +14,25 @@ extern "C" {
 #include "glm/glm.hpp"
 
 namespace rayengine {
-    class Camera3D : public Node3D {
-    public:
-        static shared_ptr<Camera3D> Create(float fov = 45.0f,
-                                           glm::vec3 target = {0, 0, 0},
-                                           NODE_CREATE_ARGS);
 
-        static Camera *GetMainCamera();
+class Camera3D : public Node3D {
+public:
+    static shared_ptr<Camera3D> Create(float fov = 45.0f, glm::vec3 target = {0, 0, 0}, NODE_CREATE_ARGS);
 
-        void Process(float dt) override;
+    static Camera *GetMainCamera();
 
-    protected:
-        static weak_ptr<Camera3D> main_camera;
+    void Process(float dt) override;
 
-        Camera camera;
-        float fov = 45.0f;
-        glm::vec3 target = {0, 0, 0};
+protected:
+    static weak_ptr<Camera3D> main_camera;
 
-        Camera3D() : Node3D() {
-        }
-    };
-}
+    Camera camera;
+    float fov = 45.0f;
+    glm::vec3 target = {0, 0, 0};
 
+    Camera3D() : Node3D() {}
+};
 
-#endif //CAMERA_NODE_H
+}  // namespace rayengine
+
+#endif  // CAMERA_NODE_H

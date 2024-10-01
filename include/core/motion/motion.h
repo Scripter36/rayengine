@@ -11,8 +11,8 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include "glm/gtx/quaternion.hpp"
 
-
 namespace rayengine {
+
 class Motion {
 public:
     int frame_count = 0;
@@ -25,7 +25,7 @@ public:
     [[nodiscard]] glm::vec3 GetPosition(int frame, int channel_index, char order) const;
     [[nodiscard]] glm::quat GetRotation(int frame, int channel_index, char order) const;
 };
-} // rayengine
 
+}  // namespace rayengine
 
-#endif //MOTION_H
+#endif  // MOTION_H

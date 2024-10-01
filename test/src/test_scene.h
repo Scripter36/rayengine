@@ -7,7 +7,7 @@
 #include "core/node3d.h"
 
 namespace rayengine {
-    class Cube;
+class Cube;
 }
 
 using namespace rayengine;
@@ -19,12 +19,10 @@ public:
     void Process(float dt) override;
 
 protected:
-    TestScene() : Node3D() {
-    }
+    TestScene() : Node3D() {}
 
     shared_ptr<Cube> cube;
     float angle = 0;
 };
 
-
-#endif //TEST_SCENE_H
+#endif  // TEST_SCENE_H

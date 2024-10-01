@@ -4,13 +4,15 @@
 
 #include "core/motion/bvh_format.h"
 
-#include <cmath>
 #include <tuple>
 
 #include "core/motion/motion.h"
 #include "core/motion/skeleton.h"
 
-#define CHECK_CONSUME(is, str) if (!Consume(is, str)) { throw std::runtime_error(std::string("Expected ") + str); }
+#define CHECK_CONSUME(is, str)                                    \
+    if (!Consume(is, str)) {                                      \
+        throw std::runtime_error(std::string("Expected ") + str); \
+    }
 #define X_POSITION 0
 #define Y_POSITION 1
 #define Z_POSITION 2
@@ -19,9 +21,8 @@
 #define Z_ROTATION 5
 
 namespace rayengine {
-void BVHFormat::Import(std::istream &is, Skeleton &skeleton, Motion &motion) {
-    Start(is, skeleton, motion);
-}
+
+void BVHFormat::Import(std::istream &is, Skeleton &skeleton, Motion &motion) { Start(is, skeleton, motion); }
 
 void BVHFormat::Export(std::ostream &os, const Skeleton &skeleton, const Motion &motion) {
     os.setf(std::ios::fixed);
@@ -136,7 +137,7 @@ void BVHFormat::Channels(std::istream &is, unsigned char &channel_count, char &p
     bool has_rotation = false;
     int position = 0;
     int rotation = 0;
-    for (unsigned char channel: channels) {
+    for (unsigned char channel : channels) {
         if (channel == X_POSITION || channel == Y_POSITION || channel == Z_POSITION) {
             position = 10 * position + channel;
             has_position = true;
@@ -349,10 +350,10 @@ void BVHFormat::ExportJoint(std::ostream &os, const Skeleton &skeleton, int inde
     }
     os << indent << "{\n";
     indent += "\t";
-    os << indent << "OFFSET " << skeleton.offsets[index].x << " " << skeleton.offsets[index].y << " " << skeleton.
-            offsets[index].z << "\n";
+    os << indent << "OFFSET " << skeleton.offsets[index].x << " " << skeleton.offsets[index].y << " "
+       << skeleton.offsets[index].z << "\n";
     if (skeleton.channel_counts[index] > 0) {
-        os << indent << "CHANNELS " << (int) skeleton.channel_counts[index] * 3 << " ";
+        os << indent << "CHANNELS " << (int)skeleton.channel_counts[index] * 3 << " ";
         if (skeleton.position_orders[index] != -1) {
             auto position_order = skeleton.position_orders[index];
             if (position_order == ORDER_XYZ) {
@@ -396,4 +397,5 @@ void BVHFormat::ExportJoint(std::ostream &os, const Skeleton &skeleton, int inde
     indent = indent.substr(0, indent.size() - 1);
     os << indent << "}\n";
 }
-} // rayengine
+
+}  // namespace rayengine

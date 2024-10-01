@@ -9,8 +9,8 @@
 
 #include "glm/glm.hpp"
 
-
 namespace rayengine {
+
 class Motion;
 #define ORDER_XYZ 0
 #define ORDER_XZY 1
@@ -38,9 +38,9 @@ public:
     int AddBone(const std::string &name, const glm::vec3 &offset, int parent, unsigned char channel_count,
                 unsigned char position_order, unsigned char rotation_order);
 
-    [[nodiscard]] std::vector<glm::vec3> ForwardKinematics(Motion& motion, int frame) const;
+    [[nodiscard]] std::vector<glm::vec3> ForwardKinematics(Motion &motion, int frame) const;
 };
-} // rayengine
 
+}  // namespace rayengine
 
-#endif //SKELETON_H
+#endif  // SKELETON_H

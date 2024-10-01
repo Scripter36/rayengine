@@ -25,6 +25,7 @@ class Skeleton;
  */
 
 namespace rayengine {
+
 class BVHFormat {
 public:
     static void Import(std::istream &is, Skeleton &skeleton, Motion &motion);
@@ -36,18 +37,14 @@ protected:
     static void Joint(std::istream &is, Skeleton &skeleton, int parent);
     static void Offset(std::istream &is, glm::vec3 &offset);
     static void Channels(std::istream &is, unsigned char &channel_count, char &position_order, char &rotation_order);
-    static void MotionData(std::istream &is, const Skeleton& skeleton, Motion &motion);
+    static void MotionData(std::istream &is, const Skeleton &skeleton, Motion &motion);
     static void Name(std::istream &is, std::string &name);
     static void Int(std::istream &is, int &value);
     static void Float(std::istream &is, float &value);
 
-    static bool IsWhitespace(char c) {
-        return c == ' ' || c == '\t' || c == '\n' || c == '\r';
-    }
+    static bool IsWhitespace(char c) { return c == ' ' || c == '\t' || c == '\n' || c == '\r'; }
 
-    static bool IsDigit(char c) {
-        return c >= '0' && c <= '9';
-    }
+    static bool IsDigit(char c) { return c >= '0' && c <= '9'; }
 
     static void ClearWhitespace(std::istream &is) {
         char c;
@@ -61,5 +58,6 @@ protected:
     // Export functions
     static void ExportJoint(std::ostream &os, const Skeleton &skeleton, int index, int depth);
 };
-} // rayengine
-#endif //BVH_FORMAT_H
+
+}  // namespace rayengine
+#endif  // BVH_FORMAT_H

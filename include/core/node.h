@@ -9,21 +9,19 @@
 #include <memory>
 #include <vector>
 
-
 using namespace std;
 
 namespace rayengine {
-#define NODE_CREATE_ARGS \
-const weak_ptr<Node> &parent = {}, \
-const vector<shared_ptr<Node>>& children = {}
-#define NODE_CREATE(node, type) \
-auto node = shared_ptr<type>(new type()); \
-if (parent.lock()) { \
-parent.lock()->AddChild(node); \
-} \
-for (const auto &child : children) { \
-node->AddChild(child); \
-}
+
+#define NODE_CREATE_ARGS const weak_ptr<Node> &parent = {}, const vector<shared_ptr<Node>> &children = {}
+#define NODE_CREATE(node, type)               \
+    auto node = shared_ptr<type>(new type()); \
+    if (parent.lock()) {                      \
+        parent.lock()->AddChild(node);        \
+    }                                         \
+    for (const auto &child : children) {      \
+        node->AddChild(child);                \
+    }
 
 class Node : public enable_shared_from_this<Node> {
 public:
@@ -42,7 +40,7 @@ public:
 
     void RemoveFromParent();
 
-    vector<shared_ptr<Node> > children;
+    vector<shared_ptr<Node>> children;
     weak_ptr<Node> parent;
 
     struct Iterator {
@@ -52,12 +50,9 @@ public:
         using pointer = shared_ptr<Node> *;
         using reference = shared_ptr<Node> &;
 
-        explicit Iterator(const shared_ptr<Node> &node) : node(node) {
-        }
+        explicit Iterator(const shared_ptr<Node> &node) : node(node) {}
 
-        value_type operator*() {
-            return node;
-        }
+        value_type operator*() { return node; }
 
         Iterator &operator++() {
             if (!node->children.empty()) {
@@ -83,44 +78,31 @@ public:
             return it;
         }
 
-        friend bool operator==(const Iterator &a, const Iterator &b) {
-            return a.node == b.node;
-        }
+        friend bool operator==(const Iterator &a, const Iterator &b) { return a.node == b.node; }
 
-        friend bool operator!=(const Iterator &a, const Iterator &b) {
-            return a.node != b.node;
-        }
+        friend bool operator!=(const Iterator &a, const Iterator &b) { return a.node != b.node; }
 
     protected:
         value_type node;
     };
 
-    Iterator begin() {
-        return Iterator(shared_from_this());
-    }
+    Iterator begin() { return Iterator(shared_from_this()); }
 
-    Iterator end() {
-        return Iterator(nullptr);
-    }
+    Iterator end() { return Iterator(nullptr); }
 
     // Lifecycle
-    virtual void EnterTree() {
-    }
+    virtual void EnterTree() {}
 
-    virtual void ExitTree() {
-    }
+    virtual void ExitTree() {}
 
-    virtual void Process(float dt) {
-    }
+    virtual void Process(float dt) {}
 
-    virtual void Draw() {
-    }
+    virtual void Draw() {}
 
 protected:
-    Node() {
-    };
+    Node(){};
 };
-}
 
+}  // namespace rayengine
 
-#endif //BASE_NODE_H
+#endif  // BASE_NODE_H

@@ -8,10 +8,9 @@
 
 weak_ptr<rayengine::Camera3D> rayengine::Camera3D::main_camera;
 
-
-shared_ptr<rayengine::Camera3D> rayengine::Camera3D::Create(
-    const float fov, const glm::vec3 target, const weak_ptr<Node> &parent,
-    const vector<shared_ptr<Node> > &children) {
+shared_ptr<rayengine::Camera3D> rayengine::Camera3D::Create(const float fov, const glm::vec3 target,
+                                                            const weak_ptr<Node> &parent,
+                                                            const vector<shared_ptr<Node> > &children) {
     NODE_CREATE(node, Camera3D);
     node->camera = Camera();
     node->camera.fovy = fov;

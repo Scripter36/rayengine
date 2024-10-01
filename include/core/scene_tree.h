@@ -9,22 +9,18 @@
 using namespace std;
 
 namespace rayengine {
-    class Node;
+class Node;
 
-    class SceneTree {
-    public:
-        static void Init();
+class SceneTree {
+public:
+    static void Init();
+    static void Process(float dt);
+    static void Draw();
+    static void SetRoot(shared_ptr<Node> new_root);
 
-        static void Process(float dt);
+private:
+    static shared_ptr<Node> root;
+};
+}  // namespace rayengine
 
-        static void Draw();
-
-        static void SetRoot(shared_ptr<Node> new_root);
-
-    private:
-        static shared_ptr<Node> root;
-    };
-}
-
-
-#endif //SCENE_TREE_H
+#endif  // SCENE_TREE_H
