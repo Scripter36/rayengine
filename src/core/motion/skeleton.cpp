@@ -45,7 +45,7 @@ int Skeleton::AddBone(const std::string &name, const glm::vec3 &offset, int pare
         children.push_back(0);
         // shift
         int push_start = children_indices[parent] + children_counts[parent] - 1;
-        for (int i = children.size() - 1; i >= push_start; i--) {
+        for (int i = children.size() - 2; i >= push_start; i--) {
             children[i + 1] = children[i];
         }
         // insert
