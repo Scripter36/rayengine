@@ -19,23 +19,22 @@ private:
     glm::vec3 scale = {1, 1, 1};
 
 public:
-    glm::vec3 GetPosition() const { return position; }
+    void Draw() override;
+    void PostDraw() override;
 
+    glm::vec3 GetPosition() const { return position; }
     void SetPosition(const glm::vec3 &position) { Node3D::position = position; }
 
     glm::quat GetRotation() const { return rotation; }
-
     void SetRotation(const glm::quat &rotation) { Node3D::rotation = rotation; }
 
     glm::vec3 GetScale() const { return scale; }
-
     void SetScale(const glm::vec3 &scale) { Node3D::scale = scale; }
 
     glm::mat4 GetLocalTransform() const;
     glm::mat4 GetGlobalTransform() const;
 
     glm::vec3 GetGlobalPosition() const { return glm::vec3(GetGlobalTransform()[3]); }
-
     glm::quat GetGlobalRotation() const { return glm::quat_cast(GetGlobalTransform()); }
 };
 }  // namespace rayengine

@@ -10,7 +10,7 @@ namespace rayengine {
 
 class Cube : public Node3D {
 public:
-    static shared_ptr<Cube> Create(NODE_CREATE_ARGS, const glm::vec3 color = {1, 1, 1}) {
+    static shared_ptr<Cube> Create(const glm::vec3 color = {1, 1, 1}, NODE_CREATE_ARGS) {
         NODE_CREATE(node, Cube);
         node->color = color;
         return node;

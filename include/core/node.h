@@ -35,9 +35,7 @@ public:
 
     // Tree structure
     void AddChild(const shared_ptr<Node> &child);
-
     void RemoveChild(const shared_ptr<Node> &child);
-
     void RemoveFromParent();
 
     vector<shared_ptr<Node>> children;
@@ -55,6 +53,9 @@ public:
         value_type operator*() { return node; }
 
         Iterator &operator++() {
+            if (node == nullptr) {
+                return *this;
+            }
             if (!node->children.empty()) {
                 node = node->children[0];
             } else {
@@ -85,19 +86,64 @@ public:
     protected:
         value_type node;
     };
-
     Iterator begin() { return Iterator(shared_from_this()); }
-
     Iterator end() { return Iterator(nullptr); }
+
+    struct ReverseIterator {
+        using iterator_category = forward_iterator_tag;
+        using difference_type = ptrdiff_t;
+        using value_type = shared_ptr<Node>;
+        using pointer = shared_ptr<Node> *;
+        using reference = shared_ptr<Node> &;
+
+        explicit ReverseIterator(const shared_ptr<Node> &node) {
+            // Find the last child
+            auto head = node;
+            while (head != nullptr && !head->children.empty()) {
+                head = head->children.back();
+            }
+            this->node = head;
+        }
+
+        value_type operator*() { return node; }
+
+        ReverseIterator &operator++() {
+            if (node == nullptr) {
+                return *this;
+            }
+            if (node->parent.lock()) {
+                const auto &parent = node->parent.lock();
+                const auto it = find(parent->children.begin(), parent->children.end(), node);
+                if (it != parent->children.begin()) {
+                    node = *(it - 1);
+                    while (!node->children.empty()) {
+                        node = node->children.back();
+                    }
+                } else {
+                    node = parent;
+                }
+            } else {
+                node = nullptr;
+            }
+            return *this;
+        }
+
+        friend bool operator==(const ReverseIterator &a, const ReverseIterator &b) { return a.node == b.node; }
+
+        friend bool operator!=(const ReverseIterator &a, const ReverseIterator &b) { return a.node != b.node; }
+
+    protected:
+        value_type node;
+    };
+    ReverseIterator rbegin() { return ReverseIterator(shared_from_this()); }
+    ReverseIterator rend() { return ReverseIterator(nullptr); }
 
     // Lifecycle
     virtual void EnterTree() {}
-
     virtual void ExitTree() {}
-
     virtual void Process(float dt) {}
-
     virtual void Draw() {}
+    virtual void PostDraw() {}
 
 protected:
     Node(){};

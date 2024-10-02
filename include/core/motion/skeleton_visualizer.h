@@ -1,0 +1,8 @@
+﻿//
+// Created by 1350a on 2024-10-01.
+//
+
+#ifndef SKELETON_VISUALIZER_H
+#define SKELETON_VISUALIZER_H
+
+#endif //SKELETON_VISUALIZER_H

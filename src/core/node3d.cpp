@@ -4,7 +4,28 @@
 
 #include "core/node3d.h"
 
+#include "core/render/camera_node.h"
+#include "core/scene_tree.h"
+#include "gtc/type_ptr.hpp"
+#include "rlgl.h"
+
 using namespace rayengine;
+
+void Node3D::Draw() {
+    if (!SceneTree::bIs3DMode) {
+        if (const auto camera = Camera3D::GetMainCamera()) {
+            SceneTree::bIs3DMode = true;
+            BeginMode3D(*camera);
+        } else {
+            return;
+        }
+    }
+    rlPushMatrix();
+    rlMultMatrixf(glm::value_ptr(GetGlobalTransform()));
+}
+void Node3D::PostDraw() {
+    rlPopMatrix();
+}
 
 glm::mat4 Node3D::GetLocalTransform() const {
     const auto translationMatrix = glm::translate(glm::mat4(1.0f), position);

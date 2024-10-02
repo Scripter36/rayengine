@@ -3,6 +3,7 @@
 //
 
 #include <fstream>
+#include <iostream>
 
 #include "core/engine.h"
 #include "core/motion/bvh_format.h"

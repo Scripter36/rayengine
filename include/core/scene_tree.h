@@ -18,6 +18,8 @@ public:
     static void Draw();
     static void SetRoot(shared_ptr<Node> new_root);
 
+    static bool bIs3DMode;
+
 private:
     static shared_ptr<Node> root;
 };
