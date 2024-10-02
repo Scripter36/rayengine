@@ -205,8 +205,8 @@ void BVHFormat::MotionData(std::istream &is, const Skeleton &skeleton, Motion &m
     for (int i = 0; i < skeleton.parents.size(); i++) {
         channel_count += skeleton.channel_counts[i] * 3;
     }
-    channel_count *= frame_count;
     motion.channel_count = channel_count;
+    channel_count *= frame_count;
 
     for (int i = 0; i < channel_count; i++) {
         float value;

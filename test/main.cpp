@@ -15,17 +15,6 @@
 using namespace rayengine;
 
 int main() {
-    // bvh test
-    // open file in assets/walk_minimum.bvh and make istream
-    auto file = std::ifstream("assets/walk_minimum.bvh");
-    Skeleton skeleton;
-    Motion motion;
-    BVHFormat::Import(file, skeleton, motion);
-    file.close();
-
-    // Perform forward kinematics
-    auto positions = skeleton.ForwardKinematics(motion, 0);
-
     const auto scene = TestScene::Create();
     SceneTree::Init();
     SceneTree::SetRoot(scene);

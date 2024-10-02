@@ -4,6 +4,10 @@
 
 #include "core/render/camera_node.h"
 
+#include <iostream>
+
+#include "gtx/string_cast.hpp"
+
 weak_ptr<rayengine::Camera3D> rayengine::Camera3D::main_camera;
 
 void rayengine::Camera3D::Init() {

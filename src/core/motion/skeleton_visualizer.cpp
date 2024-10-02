@@ -18,15 +18,27 @@ void SkeletonVisualizer::Init() {
         joint_sphere->SetPosition(positions[i]);
         joints.push_back(joint_sphere);
         // 2. draw bone as a cylinder
-        for (int j = 0; j < skeleton.channel_counts[i]; j++) {
+        for (int j = 0; j < skeleton.children_counts[i]; j++) {
             auto bone_cylinder = Cylinder::Create(shared_from_this(), color);
             auto start = positions[i];
-            auto end = positions[skeleton.children[j]];
+            auto end = positions[skeleton.children[j + skeleton.children_indices[i]]];
             bone_cylinder->SetPosition((start + end) / 2.0f);
+            bone_cylinder->SetScale(glm::vec3{0.4f, glm::distance(start, end), 0.4f});
+            bone_cylinder->SetRotation(glm::quatLookAt(glm::normalize(end - start), glm::vec3{0, 1, 0}) * glm::angleAxis(glm::half_pi<float>(), glm::vec3{1, 0, 0}));
+            bones.push_back(bone_cylinder);
         }
     }
 }
 
-void SkeletonVisualizer::UpdateSkeleton(const Motion& motion, const int frame) {
+void SkeletonVisualizer::UpdateSkeleton(const Motion& motion, const int frame) const {
     auto positions = skeleton.ForwardKinematics(motion, frame);
+    for (int i = 0; i < skeleton.size(); ++i) {
+        joints[i]->SetPosition(positions[i]);
+        for (int j = 0; j < skeleton.children_counts[i]; j++) {
+            auto start = positions[i];
+            auto end = positions[skeleton.children[j + skeleton.children_indices[i]]];
+            bones[j + skeleton.children_indices[i]]->SetPosition((start + end) / 2.0f);
+            bones[j + skeleton.children_indices[i]]->SetRotation(glm::quatLookAt(glm::normalize(end - start), glm::vec3{0, 1, 0}) * glm::angleAxis(glm::half_pi<float>(), glm::vec3{1, 0, 0}));
+        }
+    }
 }
