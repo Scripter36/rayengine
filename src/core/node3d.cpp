@@ -16,15 +16,21 @@ void Node3D::Draw() {
         if (const auto camera = Camera3D::GetMainCamera()) {
             SceneTree::bIs3DMode = true;
             BeginMode3D(*camera);
+            bStarted3DMode = true;
         } else {
             return;
         }
     }
     rlPushMatrix();
-    rlMultMatrixf(glm::value_ptr(GetGlobalTransform()));
+    rlMultMatrixf(glm::value_ptr(GetLocalTransform()));
 }
+
 void Node3D::PostDraw() {
     rlPopMatrix();
+    if (bStarted3DMode) {
+        EndMode3D();
+        SceneTree::bIs3DMode = false;
+    }
 }
 
 glm::mat4 Node3D::GetLocalTransform() const {

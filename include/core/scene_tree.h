@@ -15,8 +15,9 @@ class SceneTree {
 public:
     static void Init();
     static void Process(float dt);
-    static void Draw();
-    static void SetRoot(shared_ptr<Node> new_root);
+    static void Draw(const shared_ptr<Node>& root = nullptr);
+    static void SetRoot(shared_ptr<Node> new_root) { root = std::move(new_root); }
+    static shared_ptr<Node> GetRoot() { return root; }
 
     static bool bIs3DMode;
 

@@ -27,10 +27,11 @@ protected:
     shared_ptr<Cube> cube;
     float angle = 0;
     float elapsed_time = 0;
-    Skeleton *skeleton = nullptr;
-    Motion *motion = nullptr;
 
-    shared_ptr<SkeletonVisualizer> visualizer;
+    vector<Skeleton*> skeletons;
+    vector<Motion*> motions;
+    vector<shared_ptr<SkeletonVisualizer>> visualizers;
+    void LoadBVHFiles(int max_count = -1);
 };
 
 #endif  // TEST_SCENE_H

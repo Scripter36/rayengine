@@ -4,11 +4,10 @@
 
 #include "core/scene_tree.h"
 
-#include <utility>
+#include <ranges>
+#include <stack>
 
 #include "core/node.h"
-#include "raylib.h"
-#include "rlgl.h"
 
 using namespace rayengine;
 
@@ -23,15 +22,29 @@ void SceneTree::Process(const float dt) {
     }
 }
 
-void SceneTree::Draw() {
-    SceneTree::bIs3DMode = false;
-    for (const auto node : *root) {
-        node->Draw();
-        node->PostDraw();
-    }
-    if (SceneTree::bIs3DMode) {
-        EndMode3D();
+void SceneTree::Draw(const shared_ptr<Node>& root) {
+    const auto target = root ? root : SceneTree::root;
+
+    // Stack to hold pairs of node and whether its children are processed
+    std::stack<std::pair<shared_ptr<Node>, bool>> stack;
+    stack.emplace(target, false);
+
+    while (!stack.empty()) {
+        auto& [current, childrenProcessed] = stack.top();
+
+        if (!childrenProcessed) {
+            // First pass: Draw the current node and mark children as not processed
+            current->Draw();
+            stack.top().second = true;
+
+            // Push children onto the stack in reverse order for correct traversal
+            for (auto & it : std::ranges::reverse_view(current->children)) {
+                stack.emplace(it, false);
+            }
+        } else {
+            // Second pass: After all children, call PostDraw and pop the node
+            current->PostDraw();
+            stack.pop();
+        }
     }
 }
-
-void SceneTree::SetRoot(shared_ptr<Node> new_root) { root = std::move(new_root); }

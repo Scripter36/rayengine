@@ -17,7 +17,7 @@ namespace rayengine {
 #define NODE_CREATE_METHOD(type)                                              \
     template <typename... Args>                                               \
     static inline shared_ptr<type> Create(NODE_CREATE_ARGS, Args &&...args) { \
-        return Node::Create<type>(parent, forward<Args>(args)...);            \
+        return Node::Create<type>(parent, std::forward<Args>(args)...);       \
     }
 
 class Node : public enable_shared_from_this<Node> {
@@ -32,7 +32,7 @@ public:
     // Template way
     template <typename T = Node, typename... Args>
     static shared_ptr<T> Create(NODE_CREATE_ARGS, Args &&...args) {
-        shared_ptr<T> node = make_shared<T>(forward<Args>(args)...);
+        shared_ptr<T> node = make_shared<T>(std::forward<Args>(args)...);
         if (parent.lock()) {
             parent.lock()->AddChild(node);
         }

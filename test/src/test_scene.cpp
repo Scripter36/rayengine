@@ -4,6 +4,7 @@
 
 #include "test_scene.h"
 
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 
@@ -17,6 +18,8 @@
 
 using namespace rayengine;
 
+namespace fs = std::filesystem;
+
 void TestScene::Init() {
     Node3D::Init();
     const auto orbit_controls = OrbitControls::Create(shared_from_this(), 10);
@@ -24,24 +27,42 @@ void TestScene::Init() {
 
     cube = Cube::Create(shared_from_this(), glm::vec3{1, 1, 1});
 
-    // bvh test
-    // open file in assets/walk_minimum.bvh
-    auto file = std::ifstream("assets/walk_minimum.bvh");
-    skeleton = new Skeleton();
-    motion = new Motion();
-    BVHFormat::Import(file, *skeleton, *motion);
-    file.close();
-
-    // skeleton visualizer test
-    visualizer = SkeletonVisualizer::Create(shared_from_this(), *skeleton, glm::vec3{1, 0, 0});
-    visualizer->SetPosition({0, 0, 5});
-    visualizer->SetScale({0.01, 0.01, 0.01});
+    LoadBVHFiles(10);
 }
 
 void TestScene::Process(const float dt) {
     elapsed_time += dt;
-    int frame = static_cast<int>(elapsed_time / motion->frame_time);
-    frame %= motion->frame_count;
+    for (int i = 0; i < visualizers.size(); i++) {
+        const int frame = static_cast<int>(elapsed_time / motions[i]->frame_time) % motions[i]->frame_count;
+        visualizers[i]->UpdateSkeleton(*motions[i], frame);
+    }
+}
+void TestScene::LoadBVHFiles(int max_count) {
+    int count = 0;
+    vector<std::string> paths;
+    for (const auto& entry : fs::directory_iterator("assets/motions")) {
+        paths.push_back(entry.path().string());
+        if (max_count > 0 && ++count >= max_count) {
+            break;
+        }
+    }
 
-    visualizer->UpdateSkeleton(*motion, frame);
+#pragma omp parallel for default(none) shared(paths, skeletons, motions, visualizers)
+    for (int i = 0; i < paths.size(); i++) {
+        auto file = std::ifstream(paths[i]);
+        auto skeleton = new Skeleton();
+        auto motion = new Motion();
+        BVHFormat::Import(file, *skeleton, *motion);
+        file.close();
+#pragma omp critical
+        {
+            std::cout << "imported " << paths[i] << std::endl;
+            skeletons.push_back(skeleton);
+            motions.push_back(motion);
+            auto visualizer = SkeletonVisualizer::Create(shared_from_this(), *skeleton, glm::vec3{1, 0, 0});
+            visualizer->SetPosition({0, 0, 5});
+            visualizer->SetScale({0.01, 0.01, 0.01});
+            visualizers.push_back(visualizer);
+        }
+    }
 }
