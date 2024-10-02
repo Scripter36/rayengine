@@ -4,21 +4,14 @@
 
 #include "core/render/camera_node.h"
 
-#include <iostream>
-
 weak_ptr<rayengine::Camera3D> rayengine::Camera3D::main_camera;
 
-shared_ptr<rayengine::Camera3D> rayengine::Camera3D::Create(const float fov, const glm::vec3 target,
-                                                            const weak_ptr<Node> &parent,
-                                                            const vector<shared_ptr<Node> > &children) {
-    NODE_CREATE(node, Camera3D);
-    node->camera = Camera();
-    node->camera.fovy = fov;
-    node->target = target;
+void rayengine::Camera3D::Init() {
+    camera = Camera();
+    camera.fovy = fov;
     if (!main_camera.lock()) {
-        main_camera = node;
+        main_camera = static_pointer_cast<rayengine::Camera3D>(shared_from_this());
     }
-    return node;
 }
 
 Camera *rayengine::Camera3D::GetMainCamera() {

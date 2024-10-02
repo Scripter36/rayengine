@@ -38,7 +38,12 @@ public:
     int AddBone(const std::string &name, const glm::vec3 &offset, int parent, unsigned char channel_count,
                 unsigned char position_order, unsigned char rotation_order);
 
-    [[nodiscard]] std::vector<glm::vec3> ForwardKinematics(Motion &motion, int frame) const;
+    int GetNextBoneIndex(int bone_index, int root) const;
+
+    [[nodiscard]] std::vector<glm::vec3> ForwardKinematics() const;
+    [[nodiscard]] std::vector<glm::vec3> ForwardKinematics(const Motion &motion, int frame) const;
+
+    [[nodiscard]] size_t size() const { return parents.size(); }
 };
 
 }  // namespace rayengine

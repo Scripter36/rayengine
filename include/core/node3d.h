@@ -12,13 +12,9 @@
 
 namespace rayengine {
 class Node3D : public Node {
-    // Transform
-private:
-    glm::vec3 position = {0, 0, 0};
-    glm::quat rotation = {1, 0, 0, 0};
-    glm::vec3 scale = {1, 1, 1};
-
 public:
+    NODE_CREATE_METHOD(Node3D)
+
     void Draw() override;
     void PostDraw() override;
 
@@ -36,6 +32,12 @@ public:
 
     glm::vec3 GetGlobalPosition() const { return glm::vec3(GetGlobalTransform()[3]); }
     glm::quat GetGlobalRotation() const { return glm::quat_cast(GetGlobalTransform()); }
+
+    Node3D() = default;
+protected:
+    glm::vec3 position = {0, 0, 0};
+    glm::quat rotation = {1, 0, 0, 0};
+    glm::vec3 scale = {1, 1, 1};
 };
 }  // namespace rayengine
 

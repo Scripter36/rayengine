@@ -10,14 +10,11 @@ namespace rayengine {
 
 class Sphere : public Node3D {
 public:
-    static shared_ptr<Sphere> Create(const glm::vec3 color = {1, 1, 1}, NODE_CREATE_ARGS) {
-        NODE_CREATE(node, Sphere);
-        node->color = color;
-        return node;
-    }
+    NODE_CREATE_METHOD(Sphere)
 
     void Draw() override;
 
+    Sphere(const glm::vec3 color) : Node3D(), color(color) {}
 protected:
     glm::vec3 color = {1, 1, 1};
 };

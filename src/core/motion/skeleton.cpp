@@ -54,7 +54,55 @@ int Skeleton::AddBone(const std::string &name, const glm::vec3 &offset, int pare
     return bone_index;
 }
 
-std::vector<glm::vec3> Skeleton::ForwardKinematics(Motion &motion, int frame) const {
+int Skeleton::GetNextBoneIndex(const int bone_index, const int root = -1) const {
+    int head = bone_index;
+    int root_parent = root == -1 ? -1 : parents[root];
+    // find next sibling
+    // if head has children, go to the first child
+    if (children_counts[head] > 0) {
+        return children[children_indices[head]];
+    }
+    // if not go to parent until we find a sibling
+    while (true) {
+        const auto parent = parents[head];
+        if (parent == root_parent) {
+            return -1;
+        }
+        const auto head_index = std::find(children.begin() + children_indices[parent],
+                                          children.begin() + children_indices[parent] + children_counts[parent], head) -
+                                children.begin() - children_indices[parent];
+        if (head_index < children_counts[parent] - 1) {
+            return children[children_indices[parent] + head_index + 1];
+        }
+        head = parent;
+    }
+}
+std::vector<glm::vec3> Skeleton::ForwardKinematics() const {
+    std::vector<glm::vec3> positions;
+    positions.resize(parents.size());
+    const int max_depth = *std::max_element(depths.begin(), depths.end());
+    for (int depth = max_depth; depth >= 0; depth--) {
+        for (int joint = 0; joint < parents.size(); joint++) {
+            if (depths[joint] == depth) {
+                glm::vec3 offset = offsets[joint];
+                // apply to myself
+                positions[joint] = offset;
+                // apply to children
+                int head = joint;
+                while (true) {
+                    head = GetNextBoneIndex(head, joint);
+                    if (head == -1) {
+                        break;
+                    }
+                    positions[head] = offset + positions[head];
+                }
+            }
+        }
+    }
+    return positions;
+}
+
+std::vector<glm::vec3> Skeleton::ForwardKinematics(const Motion &motion, const int frame) const {
     std::vector<glm::vec3> positions;
     positions.resize(parents.size());
     const int max_depth = *std::max_element(depths.begin(), depths.end());
@@ -76,36 +124,9 @@ std::vector<glm::vec3> Skeleton::ForwardKinematics(Motion &motion, int frame) co
                 // apply to children
                 int head = joint;
                 while (true) {
-                    // find next sibling
-                    // if head has children, go to the first child
-                    if (children_counts[head] > 0) {
-                        head = children[children_indices[head]];
-                    } else {
-                        // if not go to parent until we find a sibling
-                        while (true) {
-                            const auto parent = parents[head];
-                            if (parent == parents[joint]) {
-                                head = parents[joint];
-                                break;
-                            }
-                            const auto head_index =
-                                std::find(children.begin() + children_indices[parent],
-                                          children.begin() + children_indices[parent] + children_counts[parent], head) -
-                                children.begin();
-                            if (head_index < children_counts[parent] - 1) {
-                                head = children[children_indices[parent] + head_index + 1];
-                                break;
-                            } else {
-                                head = parent;
-                            }
-                        }
-                        if (head == parents[joint]) {
-                            break;
-                        }
-                    }
-                    if (head == 2) {
-                        std::cout << "joint: " << joint << " - "
-                                  << "head: " << head << std::endl;
+                    head = GetNextBoneIndex(head, joint);
+                    if (head == -1) {
+                        break;
                     }
                     positions[head] = glm::vec3(transform * glm::vec4(positions[head], 1));
                 }

@@ -14,12 +14,13 @@ using namespace rayengine;
 
 class TestScene : public Node3D {
 public:
-    static std::shared_ptr<TestScene> Create(NODE_CREATE_ARGS);
+    NODE_CREATE_METHOD(TestScene)
 
+    void Init() override;
     void Process(float dt) override;
 
-protected:
     TestScene() : Node3D() {}
+protected:
 
     shared_ptr<Cube> cube;
     float angle = 0;

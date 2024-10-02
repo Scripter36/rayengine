@@ -17,11 +17,14 @@ namespace rayengine {
 
 class Camera3D : public Node3D {
 public:
-    static shared_ptr<Camera3D> Create(float fov = 45.0f, glm::vec3 target = {0, 0, 0}, NODE_CREATE_ARGS);
+    NODE_CREATE_METHOD(Camera3D)
 
     static Camera *GetMainCamera();
 
+    void Init() override;
     void Process(float dt) override;
+
+    Camera3D(float fov = 45.0f, glm::vec3 target = {0, 0, 0}) : Node3D(), fov(fov), target(target) {}
 
 protected:
     static weak_ptr<Camera3D> main_camera;
@@ -29,8 +32,6 @@ protected:
     Camera camera;
     float fov = 45.0f;
     glm::vec3 target = {0, 0, 0};
-
-    Camera3D() : Node3D() {}
 };
 
 }  // namespace rayengine

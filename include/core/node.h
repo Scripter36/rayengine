@@ -13,14 +13,11 @@ using namespace std;
 
 namespace rayengine {
 
-#define NODE_CREATE_ARGS const weak_ptr<Node> &parent = {}, const vector<shared_ptr<Node>> &children = {}
-#define NODE_CREATE(node, type)               \
-    auto node = shared_ptr<type>(new type()); \
-    if (parent.lock()) {                      \
-        parent.lock()->AddChild(node);        \
-    }                                         \
-    for (const auto &child : children) {      \
-        node->AddChild(child);                \
+#define NODE_CREATE_ARGS const weak_ptr<Node> &parent = {}
+#define NODE_CREATE_METHOD(type)                                              \
+    template <typename... Args>                                               \
+    static inline shared_ptr<type> Create(NODE_CREATE_ARGS, Args &&...args) { \
+        return Node::Create<type>(parent, forward<Args>(args)...);            \
     }
 
 class Node : public enable_shared_from_this<Node> {
@@ -28,8 +25,18 @@ public:
     virtual ~Node() = default;
 
     // Factory method
-    static shared_ptr<Node> Create(NODE_CREATE_ARGS) {
-        NODE_CREATE(node, Node);
+    // static shared_ptr<Node> Create(NODE_CREATE_ARGS) {
+    //     NODE_CREATE(node, Node);
+    //     return node;
+    // }
+    // Template way
+    template <typename T = Node, typename... Args>
+    static shared_ptr<T> Create(NODE_CREATE_ARGS, Args &&...args) {
+        shared_ptr<T> node = make_shared<T>(forward<Args>(args)...);
+        if (parent.lock()) {
+            parent.lock()->AddChild(node);
+        }
+        node->Init();
         return node;
     }
 
@@ -139,14 +146,17 @@ public:
     ReverseIterator rend() { return ReverseIterator(nullptr); }
 
     // Lifecycle
+    virtual void Init() {}
     virtual void EnterTree() {}
     virtual void ExitTree() {}
     virtual void Process(float dt) {}
     virtual void Draw() {}
     virtual void PostDraw() {}
 
-protected:
-    Node(){};
+    // Prevent direct instantiation
+    Node() = default;
+    Node(const Node &other) = delete;
+    Node &operator=(const Node &other) = delete;
 };
 
 }  // namespace rayengine
