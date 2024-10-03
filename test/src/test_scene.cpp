@@ -10,8 +10,9 @@
 
 #include "core/motion/bvh_format.h"
 #include "core/motion/motion.h"
+#include "core/motion/motion_editor.h"
+#include "core/motion/motion_player.h"
 #include "core/motion/skeleton.h"
-#include "core/motion/skeleton_visualizer.h"
 #include "core/render/camera_node.h"
 #include "core/render/primitives/cube.h"
 #include "core/utils/orbit_controls.h"
@@ -19,6 +20,15 @@
 using namespace rayengine;
 
 namespace fs = std::filesystem;
+
+TestScene::~TestScene() {
+    for (const auto skeleton : skeletons) {
+        delete skeleton;
+    }
+    for (const auto motion : motions) {
+        delete motion;
+    }
+}
 
 void TestScene::Init() {
     Node3D::Init();
@@ -30,13 +40,6 @@ void TestScene::Init() {
     LoadBVHFiles(10);
 }
 
-void TestScene::Process(const float dt) {
-    elapsed_time += dt;
-    for (int i = 0; i < visualizers.size(); i++) {
-        const int frame = static_cast<int>(elapsed_time / motions[i]->frame_time) % motions[i]->frame_count;
-        visualizers[i]->UpdateSkeleton(*motions[i], frame);
-    }
-}
 void TestScene::LoadBVHFiles(int max_count) {
     int count = 0;
     vector<std::string> paths;
@@ -47,7 +50,7 @@ void TestScene::LoadBVHFiles(int max_count) {
         }
     }
 
-#pragma omp parallel for default(none) shared(paths, skeletons, motions, visualizers)
+#pragma omp parallel for default(none) shared(paths, skeletons, motions)
     for (int i = 0; i < paths.size(); i++) {
         auto file = std::ifstream(paths[i]);
         auto skeleton = new Skeleton();
@@ -57,12 +60,10 @@ void TestScene::LoadBVHFiles(int max_count) {
 #pragma omp critical
         {
             std::cout << "imported " << paths[i] << std::endl;
+            MotionEditor::Scale(*motion, *skeleton, glm::vec3{0.01f});
             skeletons.push_back(skeleton);
             motions.push_back(motion);
-            auto visualizer = SkeletonVisualizer::Create(shared_from_this(), *skeleton, glm::vec3{1, 0, 0});
-            visualizer->SetPosition({0, 0, 5});
-            visualizer->SetScale({0.01, 0.01, 0.01});
-            visualizers.push_back(visualizer);
+            MotionPlayer::Create(shared_from_this(), *skeleton, *motion, glm::vec3{1, 0, 0});
         }
     }
 }

@@ -34,6 +34,7 @@ public:
     glm::quat GetGlobalRotation() const { return glm::quat_cast(GetGlobalTransform()); }
 
     Node3D() = default;
+
 protected:
     glm::vec3 position = {0, 0, 0};
     glm::quat rotation = {1, 0, 0, 0};

@@ -6,7 +6,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
-set(VENDOR_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vendors)
 set(TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/test)
 
 file(GLOB_RECURSE SOURCES ${SOURCE_DIR}/*.cpp ${SOURCE_DIR}/*.cu)
@@ -19,11 +18,9 @@ include_directories(include)
 add_library(rayengine ${SOURCES} ${HEADERS})
 set_target_properties(rayengine PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
 
-add_subdirectory(vendors/raylib)
-add_subdirectory(vendors/glm)
-
-link_directories(vendors/raylib/src)
-link_directories(vendors/raygui/src)
+include(cmake/CPM.cmake)
+CPMAddPackage("gh:raysan5/raylib#96d91a38923094951e481d9fbc26291026e48fea")
+CPMAddPackage("gh:g-truc/glm#1.0.1")
 
 target_link_libraries(rayengine raylib glm)
 find_package(OpenMP)
@@ -31,9 +28,6 @@ if(OpenMP_CXX_FOUND)
     message(STATUS "OpenMP found")
     target_link_libraries(rayengine OpenMP::OpenMP_CXX)
 endif()
-target_include_directories(rayengine PRIVATE vendors/raylib/src)
-target_include_directories(rayengine PRIVATE vendors/raygui/src)
-target_include_directories(rayengine PRIVATE vendors/glm/glm)
 
 add_executable(rayengine_test ${TESTS})
 set_target_properties(rayengine_test PROPERTIES CUDA_SEPARABLE_COMPILATION ON)

@@ -4,10 +4,6 @@
 
 #include "core/utils/orbit_controls.h"
 
-#include <iostream>
-
-#include "gtx/string_cast.hpp"
-
 extern "C" {
 #include "raylib.h"
 }

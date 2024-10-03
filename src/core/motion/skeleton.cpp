@@ -4,12 +4,11 @@
 
 #include "core/motion/skeleton.h"
 
-#include <iostream>
 #include <stdexcept>
 
 #include "core/motion/motion.h"
 #include "glm/gtx/quaternion.hpp"
-#include "gtx/string_cast.hpp"
+#include "glm/gtx/string_cast.hpp"
 
 using namespace rayengine;
 

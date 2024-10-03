@@ -24,6 +24,8 @@ public:
 
     [[nodiscard]] glm::vec3 GetPosition(int frame, int channel_index, char order) const;
     [[nodiscard]] glm::quat GetRotation(int frame, int channel_index, char order) const;
+    void SetPosition(int frame, int channel_index, char order, const glm::vec3& position);
+    void SetRotation(int frame, int channel_index, char order, const glm::quat& rotation);
 };
 
 }  // namespace rayengine

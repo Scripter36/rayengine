@@ -4,11 +4,10 @@
 
 #include "core/render/primitives/cube.h"
 
-#include "gtc/type_ptr.inl"
+#include "glm/gtc/type_ptr.inl"
 
 extern "C" {
 #include "raylib.h"
-#include "rlgl.h"
 }
 
 using namespace rayengine;

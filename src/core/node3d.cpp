@@ -6,7 +6,7 @@
 
 #include "core/render/camera_node.h"
 #include "core/scene_tree.h"
-#include "gtc/type_ptr.hpp"
+#include "glm/gtc/type_ptr.inl"
 #include "rlgl.h"
 
 using namespace rayengine;

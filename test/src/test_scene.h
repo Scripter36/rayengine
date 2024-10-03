@@ -18,10 +18,10 @@ using namespace rayengine;
 class TestScene : public Node3D {
 public:
     TestScene() : Node3D() {}
+    ~TestScene() override;
     NODE_CREATE_METHOD(TestScene)
 
     void Init() override;
-    void Process(float dt) override;
 
 protected:
     shared_ptr<Cube> cube;
@@ -30,7 +30,7 @@ protected:
 
     vector<Skeleton*> skeletons;
     vector<Motion*> motions;
-    vector<shared_ptr<SkeletonVisualizer>> visualizers;
+
     void LoadBVHFiles(int max_count = -1);
 };
 
