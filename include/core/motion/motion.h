@@ -26,6 +26,11 @@ public:
     [[nodiscard]] glm::quat GetRotation(int frame, int channel_index, char order) const;
     void SetPosition(int frame, int channel_index, char order, const glm::vec3& position);
     void SetRotation(int frame, int channel_index, char order, const glm::quat& rotation);
+
+    Motion GetSubMotion(int start_frame, int end_frame) const;
+
+    Motion operator+(const Motion& other) const;
+    Motion operator+=(const Motion& other);
 };
 
 }  // namespace rayengine

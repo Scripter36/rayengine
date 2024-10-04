@@ -147,3 +147,40 @@ void Motion::SetRotation(int frame, int channel_index, char order, const glm::qu
             throw std::runtime_error("Invalid rotation order");
     }
 }
+
+Motion Motion::GetSubMotion(int start_frame, int end_frame) const {
+    if (start_frame < 0 || end_frame >= frame_count || start_frame > end_frame) {
+        throw std::runtime_error("Invalid sub-motion range");
+    }
+    Motion result;
+    result.frame_count = end_frame - start_frame + 1;
+    result.frame_time = frame_time;
+    result.channel_count = channel_count;
+    result.data.resize(result.frame_count * channel_count);
+    std::copy(data.begin() + start_frame * channel_count, data.begin() + (end_frame + 1) * channel_count, result.data.begin());
+    return result;
+}
+
+Motion Motion::operator+(const Motion& other) const {
+    if (frame_time != other.frame_time || channel_count != other.channel_count) {
+        throw std::runtime_error("Mismatched motion properties");
+    }
+    Motion result;
+    result.frame_count = frame_count + other.frame_count;
+    result.frame_time = frame_time;
+    result.channel_count = channel_count;
+    result.data.resize(result.frame_count * result.channel_count);
+    std::ranges::copy(data, result.data.begin());
+    std::ranges::copy(other.data, result.data.begin() + frame_count * channel_count);
+    return result;
+}
+
+Motion Motion::operator+=(const Motion& other) {
+    if (frame_time != other.frame_time || channel_count != other.channel_count) {
+        throw std::runtime_error("Mismatched motion properties");
+    }
+    frame_count += other.frame_count;
+    data.resize(frame_count * channel_count);
+    std::ranges::copy(other.data, data.begin() + (frame_count - other.frame_count) * channel_count);
+    return *this;
+}
