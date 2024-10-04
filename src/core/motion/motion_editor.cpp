@@ -24,6 +24,22 @@ void MotionEditor::Translate(Motion& motion, const Skeleton& skeleton, const glm
         }
     }
 }
+
+void MotionEditor::Rotate(Motion& motion, const Skeleton& skeleton, const glm::quat& rotation) {
+    if (skeleton.size() == 0) {
+        return;
+    }
+
+#pragma omp parallel for default(none) shared(motion, skeleton, translation)
+    for (int t = 0; t < motion.frame_count; t++) {
+        const int channel_index = skeleton.position_orders[0] == -1 ? 0 : 1;
+        if (skeleton.rotation_orders[0] != -1) {
+            auto root_rotation = motion.GetRotation(t, channel_index, skeleton.rotation_orders[0]);
+            motion.SetRotation(t, channel_index, skeleton.rotation_orders[0], rotation * root_rotation);
+        }
+    }
+}
+
 void MotionEditor::Scale(Motion& motion, Skeleton& skeleton, const glm::vec3& scale) {
     // 1. scale the skeleton
     for (int i = 0; i < skeleton.size(); i++) {

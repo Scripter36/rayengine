@@ -21,6 +21,7 @@ namespace rayengine {
 class MotionEditor {
 public:
     static void Translate(Motion& motion, const Skeleton& skeleton, const glm::vec3& translation);
+    static void Rotate(Motion& motion, const Skeleton& skeleton, const glm::quat& rotation);
     static void Scale(Motion& motion, Skeleton& skeleton, const glm::vec3& scale);
     static void Mirror(Motion& motion, const Skeleton& skeleton, const glm::vec3& axis);
 
